@@ -28,7 +28,7 @@ export default function Card({ srcImg, sneakName, price }) {
                     <img
                         width={32}
                         height={32}
-                        src="/img/cardFav.svg"
+                        src="/img/addCartItem.svg"
                         alt="button"
                     />
                 </button>
