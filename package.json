@@ -35,8 +35,6 @@
     ]
   },
   "devDependencies": {
-    "axios": "^1.6.0",
-    "macro-css": "^1.0.5",
-    "react-scripts": "^5.0.1"
+    "axios": "^1.6.0"
   }
 }

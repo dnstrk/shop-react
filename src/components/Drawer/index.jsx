@@ -1,20 +1,45 @@
 import React from "react";
+import cl from "./Drawer.module.scss";
 
-export default function Drawer() {
+export default function Drawer({ handleCart, cartItems = [] }) {
     return (
-        <div style={{ display: "none" }} className="overlay">
-            <div className="drawer d-flex flex-column justify-between">
+        <div style={{ display: "block" }} className={cl.overlay}>
+            <div className={cl.drawer}>
                 <h2 className="mb-30">
                     Корзина{" "}
                     <img
-                        className="remCartItem cu-p"
+                        onClick={handleCart}
+                        className={cl.remCartItem}
                         src="/img/remCartItem.svg"
-                        alt="remove"
+                        alt="close"
                     />
                 </h2>
 
-                <div className="cartItems">
-                    <div className="cartItem d-flex align-end justify-between mb-20">
+                <div className={cl.cartItems}>
+                    {cartItems.map((item) => (
+                        <div className={cl.cartItem}>
+                            <img
+                                className="mr-10"
+                                width={70}
+                                height={70}
+                                src={item.img}
+                                alt="sneak"
+                            />
+                            <div>
+                                <p className="mb-5">
+                                    {item.name}
+                                </p>
+                                <b>{item.price} руб.</b>
+                            </div>
+                            <img
+                                className="remCartItem"
+                                src="/img/remCartItem.svg"
+                                alt="remove"
+                            />
+                        </div>
+                    ))}
+                    {/*                     
+                    <div className={cl.cartItem}>
                         <img
                             className="mr-10"
                             width={70}
@@ -34,7 +59,7 @@ export default function Drawer() {
                             alt="remove"
                         />
                     </div>
-                    <div className="cartItem d-flex align-end justify-between mb-20">
+                    <div className={cl.cartItem}>
                         <img
                             className="mr-10"
                             width={70}
@@ -53,10 +78,10 @@ export default function Drawer() {
                             src="/img/remCartItem.svg"
                             alt="remove"
                         />
-                    </div>
+                    </div> */}
                 </div>
 
-                <div className="cartTotalBlock mt-20">
+                <div className={cl.cartTotalBlock}>
                     <ul>
                         <li className="d-flex justify-between">
                             <span>Итого: </span>
@@ -69,7 +94,7 @@ export default function Drawer() {
                             <b>1074 руб. </b>
                         </li>
                     </ul>
-                    <button className="greenButton">
+                    <button className={cl.greenButton}>
                         Оформить заказ <img src="/img/arrow.svg" alt="" />
                     </button>
                 </div>
