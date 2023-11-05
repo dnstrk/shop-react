@@ -21,8 +21,11 @@ function App() {
     const [items, setItems] = useState([]);
     const [cartItems, setCartItems] = useState([]);
     const [cartOpened, setCartOpened] = useState(false);
+    
 
-
+    const onAddToCart = (obj) => {
+        setCartItems((prev) => [...prev, obj]);
+    };
 
     useEffect(() => {
         fetch(setItems);
@@ -35,7 +38,11 @@ function App() {
     return (
         <div className="wrapper clear">
             {cartOpened && (
-                <Drawer handleCart={handleCart} cartItems={cartItems} />
+                <Drawer
+                    handleCart={handleCart}
+                    cartItems={cartItems}
+                    setCartItems={setCartItems}
+                />
             )}
             <Header handleCart={handleCart} />
             <div className="content p-40 clear">
@@ -50,10 +57,11 @@ function App() {
                     {items.map((item) => (
                         <Card
                             key={item.id}
-                            srcImg={item.img}
-                            sneakName={item.name}
+                            id={item.id}
+                            img={item.img}
+                            name={item.name}
                             price={item.price}
-                            onPlus={()=>{console.log('tap')}}
+                            onAddToCart={onAddToCart}
                         />
                     ))}
                 </div>

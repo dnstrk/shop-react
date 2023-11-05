@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import cl from "./Card.module.scss";
 
-export default function Card({srcImg, price, sneakName, onPlus}) {
+export default function Card({ img, price, name, id, onAddToCart }) {
     const [isAdded, setIsAdded] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
 
     const handlePlus = () => {
-        onPlus();
-        setIsAdded(!isAdded);
+        if (isAdded) {
+            setIsAdded(!isAdded);
+        } else {
+            onAddToCart({ img, price, name, id });
+            setIsAdded(!isAdded);
+        }
     };
 
     const handleFavorite = () => {
@@ -33,10 +37,10 @@ export default function Card({srcImg, price, sneakName, onPlus}) {
                 className="mb-15"
                 width={133}
                 height={112}
-                src={srcImg}
+                src={img}
                 alt="sneakers"
             />
-            <p className="mb-15">{sneakName}</p>
+            <p className="mb-15">{name}</p>
             <div className="d-flex justify-between align-center">
                 <div className="d-flex flex-column">
                     <span className="text-uppercase">Цена:</span>

@@ -1,7 +1,20 @@
 import React from "react";
 import cl from "./Drawer.module.scss";
 
-export default function Drawer({ handleCart, cartItems = [] }) {
+export default function Drawer({
+    handleCart,
+    cartItems = [],
+    setCartItems,
+
+}) {
+    function find(index) {
+        cartItems.splice(index, 1);
+        setCartItems((prev) => [...prev]);
+
+    }
+
+    console.log(cartItems);
+
     return (
         <div style={{ display: "block" }} className={cl.overlay}>
             <div className={cl.drawer}>
@@ -16,8 +29,8 @@ export default function Drawer({ handleCart, cartItems = [] }) {
                 </h2>
 
                 <div className={cl.cartItems}>
-                    {cartItems.map((item) => (
-                        <div className={cl.cartItem}>
+                    {cartItems.map((item, index) => (
+                        <div className={cl.cartItem} key={item.id}>
                             <img
                                 className="mr-10"
                                 width={70}
@@ -26,59 +39,17 @@ export default function Drawer({ handleCart, cartItems = [] }) {
                                 alt="sneak"
                             />
                             <div>
-                                <p className="mb-5">
-                                    {item.name}
-                                </p>
+                                <p className="mb-5">{item.name}</p>
                                 <b>{item.price} руб.</b>
                             </div>
                             <img
-                                className="remCartItem"
+                                className={cl.remCartItem}
                                 src="/img/remCartItem.svg"
                                 alt="remove"
+                                onClick={() => find(index)}
                             />
                         </div>
                     ))}
-                    {/*                     
-                    <div className={cl.cartItem}>
-                        <img
-                            className="mr-10"
-                            width={70}
-                            height={70}
-                            src="/img/sneakers/sneak1.jpg"
-                            alt="sneak"
-                        />
-                        <div>
-                            <p className="mb-5">
-                                Мужские Кроссовки Nike Air Max 270
-                            </p>
-                            <b>12 999 руб.</b>
-                        </div>
-                        <img
-                            className="remCartItem"
-                            src="/img/remCartItem.svg"
-                            alt="remove"
-                        />
-                    </div>
-                    <div className={cl.cartItem}>
-                        <img
-                            className="mr-10"
-                            width={70}
-                            height={70}
-                            src="/img/sneakers/sneak2.jpg"
-                            alt="sneak"
-                        />
-                        <div>
-                            <p className="mb-5">
-                                Мужские Кроссовки Nike Air Max 270
-                            </p>
-                            <b>12 999 руб.</b>
-                        </div>
-                        <img
-                            className="remCartItem"
-                            src="/img/remCartItem.svg"
-                            alt="remove"
-                        />
-                    </div> */}
                 </div>
 
                 <div className={cl.cartTotalBlock}>
