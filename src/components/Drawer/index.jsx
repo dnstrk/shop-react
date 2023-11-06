@@ -70,7 +70,7 @@ export default function Drawer({
                                 <li className="d-flex justify-between">
                                     <span>Налог 5%: </span>
                                     <div></div>
-                                    <b>{summ/100*5} руб. </b>
+                                    <b>{(summ/100*5).toFixed(2)} руб. </b>
                                 </li>
                             </ul>
                             <button className={cl.greenButton}>

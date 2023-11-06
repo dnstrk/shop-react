@@ -1,21 +1,37 @@
 import React, { useState } from "react";
 import cl from "./Card.module.scss";
 
-export default function Card({ img, price, name, id, onAddToCart }) {
+export default function Card({
+    img,
+    price,
+    name,
+    id,
+    onAddToCart,
+    onRemoveFromCart,
+    onAddToFavorite,
+    onRemoveFromFavorite,
+}) {
     const [isAdded, setIsAdded] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
 
     const handlePlus = () => {
         if (isAdded) {
             setIsAdded(!isAdded);
+            // onRemoveFromCart(id);
         } else {
-            onAddToCart({ img, price, name, id });
+            onAddToCart({ img, price, name, id});
             setIsAdded(!isAdded);
         }
     };
 
     const handleFavorite = () => {
-        setIsFavorite(!isFavorite);
+        if (isFavorite) {
+            setIsFavorite(!isFavorite);
+            // onRemoveFromFavorite(id);
+        } else {
+            setIsFavorite(!isFavorite);
+            onAddToFavorite({ img, price, name, id});
+        }
     };
 
     return (
