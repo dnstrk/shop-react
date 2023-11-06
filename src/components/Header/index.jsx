@@ -1,5 +1,4 @@
 import React from "react";
-import cl from "./Header.module.scss";
 
 export default function Header({ handleCart }) {
     return (
@@ -29,7 +28,7 @@ export default function Header({ handleCart }) {
                         src="/img/cart.svg"
                         alt="card"
                     />
-                    <span>1205 руб.</span>
+                    <span>Корзина</span>
                 </li>
                 <li className="d-flex mr-30 align-center">
                     <img
