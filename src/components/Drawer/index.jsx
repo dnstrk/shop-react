@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import cl from "./Drawer.module.scss";
 
 export default function Drawer({
@@ -6,20 +5,6 @@ export default function Drawer({
     cartItems = [],
     onRemoveFromCart,
 }) {
-    const [summ, setSumm] = useState(0)
-
-    function test() {
-        var res = 0
-        cartItems.map(item=>{
-            res += item.price
-        })
-        setSumm(res)
-    }
-
-    useEffect(()=>{
-        test()
-    }, [cartItems])
-
     return (
         <div style={{ display: "block" }} className={cl.overlay}>
             <div className={cl.drawer}>
@@ -52,8 +37,9 @@ export default function Drawer({
                                         className={cl.remCartItem}
                                         src="/img/remCartItem.svg"
                                         alt="remove"
-                                        onClick={() =>
-                                            onRemoveFromCart(item.id)
+                                        onClick={() =>{
+                                            console.log(item.id)
+                                            onRemoveFromCart(item.id)}
                                         }
                                     />
                                 </div>
@@ -65,12 +51,12 @@ export default function Drawer({
                                 <li className="d-flex justify-between">
                                     <span>Итого: </span>
                                     <div></div>
-                                    <b>{summ} руб. </b>
+                                    <b>N руб. </b>
                                 </li>
                                 <li className="d-flex justify-between">
                                     <span>Налог 5%: </span>
                                     <div></div>
-                                    <b>{(summ/100*5).toFixed(2)} руб. </b>
+                                    <b>N руб. </b>
                                 </li>
                             </ul>
                             <button className={cl.greenButton}>
@@ -87,7 +73,7 @@ export default function Drawer({
                             Добавьте хотя бы одну пару кроссовок, чтобы сделать
                             заказ.
                         </span>
-                        <button onClick={handleCart}>
+                        <button className="cu-p" onClick={handleCart}>
                             <img src="/img/arrow_left.svg" alt="" />
                             Вернуться назад
                         </button>
