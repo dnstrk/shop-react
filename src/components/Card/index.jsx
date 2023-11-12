@@ -11,18 +11,19 @@ export default function Card({
     onAddToFavorite,
     onRemoveFromFavorite,
     cartItems,
+    favorite = false,
 }) {
     //маркер добавленного в корзину
     const [isAdded, setIsAdded] = useState(false);
     //маркер добавленного в избранное
-    const [isFavorite, setIsFavorite] = useState(false);
+    const [isFavorite, setIsFavorite] = useState(favorite);
 
     //снимает маркеры если корзина пуста
-    useEffect(() => {
-        if (cartItems.length == 0) {
-            setIsAdded(false);
-        }
-    }, [cartItems]);
+    // useEffect(() => {
+    //     if (cartItems.length == 0) {
+    //         setIsAdded(false);
+    //     }
+    // }, [cartItems]);
 
     //добавляет элемент в КОРЗИНУ  проверяя маркер
     const handlePlus = () => {
@@ -37,13 +38,8 @@ export default function Card({
 
     //добавляет элемент в ИЗБРАННОЕ проверяя маркер
     const handleFavorite = () => {
-        if (isFavorite) {
-            setIsFavorite(!isFavorite);
-            // onRemoveFromFavorite(id);
-        } else {
-            onAddToFavorite({ img, price, name, id }); //добавляет элемент в избранное!!!
-            setIsFavorite(!isFavorite);
-        }
+        onAddToFavorite({ img, price, name, id }); //добавляет элемент в избранное!!!
+        setIsFavorite(!isFavorite);
     };
 
     return (

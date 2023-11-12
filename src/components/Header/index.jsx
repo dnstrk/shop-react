@@ -34,7 +34,7 @@ export default function Header({ handleCart }) {
                     <span>Корзина</span>
                 </li>
                 <li className="d-flex mr-30 align-center">
-                    <Link to="/test">
+                    <Link to="/favorites">
                         <img
                             className="mr-10"
                             width={18}
