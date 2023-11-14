@@ -52,6 +52,7 @@ export default function Home({
                             onAddToFavorite={onAddToFavorite}
                             onRemoveFromFavorite={onRemoveFromFavorite}
                             cartItems={cartItems}
+                            added={cartItems.some(obj=>Number(obj.id) == Number(item.id))}
                         />
                     ))}
             </div>

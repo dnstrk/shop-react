@@ -22,32 +22,45 @@ function App() {
             .then((res) => setItems(res.data));
 
         axios
+            .get("https://65415029f0b8287df1fe3a27.mockapi.io/cart")
+            .then((res) => setCartItems(res.data));
+        axios
             .get("https://6549399bdd8ebcd4ab245c9f.mockapi.io/favorite")
             .then((res) => setFavoriteItems(res.data));
     }, []);
 
-    // useEffect(() => {
-    //     axios
-    //         .get("https://6549399bdd8ebcd4ab245c9f.mockapi.io/favorite")
-    //         .then((res) => setFavoriteItems(res.data));
-    // }, [window.location.href]);
+    
+
     /*ПЕРЕНЕСЕНО ИЗ ОСНОВНОГО USEFFECT ЧТОБЫ ОБНОВЛЕНИЕ id ЭЛЕМЕНТОВ КОРЗИНЫ
     ПРОИЗВОДИЛОСЬ СРАЗУ ПОСЛЕ ДОБАВЛЕНИЯ ЭЛЕМЕНТА
     */
-    useEffect(() => {
-        axios
-            .get("https://65415029f0b8287df1fe3a27.mockapi.io/cart")
-            .then((res) => setCartItems(res.data));
-    }, [cartOpened]);
+    // useEffect(() => {
+    //     axios
+    //         .get("https://65415029f0b8287df1fe3a27.mockapi.io/cart")
+    //         .then((res) => setCartItems(res.data));
+    // }, [cartOpened]);
 
     //ДОБАВЛЕНИЕ ЭЛЕМЕНТА В MOCKAPI /CART
     //ОБНОВЛЕНИЕ cartItems ДЛЯ ОТОБРАЖЕНИЯ
-    const onAddToCart = (obj) => {
-        axios.post("https://65415029f0b8287df1fe3a27.mockapi.io/cart", obj);
-        setCartItems((prev) => [...prev, obj]);
+    const onAddToCart = async (obj) => {
+        try {
+            if (cartItems.find((item) => Number(item.id) == Number(obj.id))) {
+                axios.delete(
+                    `https://65415029f0b8287df1fe3a27.mockapi.io/cart/${obj.id}`
+                );
+            } else {
+                const { data } = await axios.post(
+                    "https://65415029f0b8287df1fe3a27.mockapi.io/cart",
+                    obj
+                );
+                setCartItems((prev) => [...prev, data]);
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
     };
 
-    //УДАЛЕНИЕ ЭЛЕМЕНТА В MOCKAPI /CART
+    //УДАЛЕНИЕ в OVERLAY ЭЛЕМЕНТА В MOCKAPI /CART
     const onRemoveFromCart = (id) => {
         axios.delete(`https://65415029f0b8287df1fe3a27.mockapi.io/cart/${id}`);
         setCartItems((prev) => prev.filter((item) => item.id !== id));
@@ -57,7 +70,9 @@ function App() {
     //ОБНОВЛЕНИЕ favoriteItems ДЛЯ ОТОБРАЖЕНИЯ
     const onAddToFavorite = async (obj) => {
         try {
-            if (favoriteItems.find((item) => item.id == obj.id)) {
+            if (
+                favoriteItems.find((item) => Number(item.id) == Number(obj.id))
+            ) {
                 axios.delete(
                     `https://6549399bdd8ebcd4ab245c9f.mockapi.io/favorite/${obj.id}`
                 );
@@ -128,6 +143,7 @@ function App() {
                         />
                     }
                 />
+                <Route path="/orders" />
             </Routes>
         </div>
     );

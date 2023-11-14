@@ -12,9 +12,10 @@ export default function Card({
     onRemoveFromFavorite,
     cartItems,
     favorite = false,
+    added = false,
 }) {
     //маркер добавленного в корзину
-    const [isAdded, setIsAdded] = useState(false);
+    const [isAdded, setIsAdded] = useState(added);
     //маркер добавленного в избранное
     const [isFavorite, setIsFavorite] = useState(favorite);
 
@@ -27,13 +28,8 @@ export default function Card({
 
     //добавляет элемент в КОРЗИНУ  проверяя маркер
     const handlePlus = () => {
-        if (isAdded) {
-            setIsAdded(!isAdded);
-            // onRemoveFromCart(id);
-        } else {
-            onAddToCart({ img, price, name, id }); //добавляет элемент в корзину!!!
-            setIsAdded(!isAdded);
-        }
+        onAddToCart({ img, price, name, id }); //добавляет элемент в корзину!!!
+        setIsAdded(!isAdded);
     };
 
     //добавляет элемент в ИЗБРАННОЕ проверяя маркер
