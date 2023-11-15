@@ -15,22 +15,30 @@ function App() {
     const [favoriteItems, setFavoriteItems] = useState([]);
     const [cartOpened, setCartOpened] = useState(false);
     const [filter, setFilter] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        axios
-            .get("https://65415029f0b8287df1fe3a27.mockapi.io/items")
-            .then((res) => setItems(res.data));
+        async function fetchData() {
+            const cartResp = await axios.get(
+                "https://65415029f0b8287df1fe3a27.mockapi.io/cart"
+            );
+            const favoriteResp = await axios.get(
+                "https://6549399bdd8ebcd4ab245c9f.mockapi.io/favorite"
+            );
+            const itemResp = await axios.get(
+                "https://65415029f0b8287df1fe3a27.mockapi.io/items"
+            );
 
-        axios
-            .get("https://65415029f0b8287df1fe3a27.mockapi.io/cart")
-            .then((res) => setCartItems(res.data));
-        axios
-            .get("https://6549399bdd8ebcd4ab245c9f.mockapi.io/favorite")
-            .then((res) => setFavoriteItems(res.data));
+            setIsLoading(false);
+
+            setCartItems(cartResp.data);
+            setFavoriteItems(favoriteResp.data);
+            setItems(itemResp.data);
+        }
+        fetchData();
+
+        
     }, []);
-
-    
-
     /*ПЕРЕНЕСЕНО ИЗ ОСНОВНОГО USEFFECT ЧТОБЫ ОБНОВЛЕНИЕ id ЭЛЕМЕНТОВ КОРЗИНЫ
     ПРОИЗВОДИЛОСЬ СРАЗУ ПОСЛЕ ДОБАВЛЕНИЯ ЭЛЕМЕНТА
     */
@@ -129,6 +137,7 @@ function App() {
                             onRemoveFromCart={onRemoveFromCart}
                             onAddToFavorite={onAddToFavorite}
                             cartItems={cartItems}
+                            isLoading={isLoading}
                         />
                     }
                     exact

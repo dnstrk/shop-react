@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Card from "../components/Card";
 
 export default function Home({
@@ -11,7 +11,37 @@ export default function Home({
     onAddToFavorite,
     onRemoveFromFavorite,
     cartItems,
+    isLoading,
 }) {
+    
+
+    const renderItems = () => {
+        const filteredItems = items.filter((item) =>
+            item.name.toLowerCase().includes(filter.toLowerCase())
+        );
+
+        return (isLoading ? [...Array(8)] : filteredItems).map(
+            (item, index) => (
+                <Card
+                    key={index}
+                    // id={item.id}
+                    // img={item.img}
+                    // name={item.name}
+                    // price={item.price}
+                    {...item}
+                    onAddToCart={onAddToCart}
+                    onRemoveFromCart={onRemoveFromCart}
+                    onAddToFavorite={onAddToFavorite}
+                    onRemoveFromFavorite={onRemoveFromFavorite}
+                    cartItems={cartItems}
+                    added={cartItems.some(
+                        (obj) => Number(item.id) == Number(obj.id)
+                    )}
+                    loading={isLoading}
+                />
+            )
+        );
+    };
     return (
         <div className="content p-40 clear">
             <div className="d-flex justify-between align-center mb-40">
@@ -34,28 +64,7 @@ export default function Home({
                     />
                 </div>
             </div>
-            <div className="cards d-flex">
-                {items
-                    .filter((item) =>
-                        item.name.toLowerCase().includes(filter.toLowerCase())
-                    )
-                    .map((item) => (
-                        <Card
-                            key={item.id}
-                            // id={item.id}
-                            // img={item.img}
-                            // name={item.name}
-                            // price={item.price}
-                            {...item}
-                            onAddToCart={onAddToCart}
-                            onRemoveFromCart={onRemoveFromCart}
-                            onAddToFavorite={onAddToFavorite}
-                            onRemoveFromFavorite={onRemoveFromFavorite}
-                            cartItems={cartItems}
-                            added={cartItems.some(obj=>Number(obj.id) == Number(item.id))}
-                        />
-                    ))}
-            </div>
+            <div className="cards d-flex">{renderItems()}</div>
         </div>
     );
 }
