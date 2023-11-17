@@ -13,11 +13,11 @@ export default function Card({
     onRemoveFromFavorite,
     cartItems,
     favorite = false,
-    added = false,
+    added = false,      //МАРКЕР ОТВЕЧАЮЩИЙ ЗА ИЗМЕНЕНИЕ КАРТИНКИ ДОБАВЛЕНИЯ!!!
     loading = false,
 }) {
     //маркер добавленного в корзину
-    const [isAdded, setIsAdded] = useState(added);
+    const [isAdded, setIsAdded] = useState(added);  //МАРКЕР ОТВЕЧАЮЩИЙ ЗА ИЗМЕНЕНИЕ КАРТИНКИ ДОБАВЛЕНИЯ!!!
     //маркер добавленного в избранное
     const [isFavorite, setIsFavorite] = useState(favorite);
 

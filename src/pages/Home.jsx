@@ -35,7 +35,7 @@ export default function Home({
                     onAddToFavorite={onAddToFavorite}
                     onRemoveFromFavorite={onRemoveFromFavorite}
                     cartItems={cartItems}
-                    added={cartItems.some(
+                    added={cartItems.some(  //МАРКЕР ОТВЕЧАЮЩИЙ ЗА ИЗМЕНЕНИЕ КАРТИНКИ ДОБАВЛЕНИЯ
                         (obj) => Number(item.id) == Number(obj.id)
                     )}
                     loading={isLoading}
