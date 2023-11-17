@@ -36,9 +36,8 @@ function App() {
             setItems(itemResp.data);
         }
         fetchData();
-
-        
     }, []);
+
     /*ПЕРЕНЕСЕНО ИЗ ОСНОВНОГО USEFFECT ЧТОБЫ ОБНОВЛЕНИЕ id ЭЛЕМЕНТОВ КОРЗИНЫ
     ПРОИЗВОДИЛОСЬ СРАЗУ ПОСЛЕ ДОБАВЛЕНИЯ ЭЛЕМЕНТА
     */
@@ -123,6 +122,7 @@ function App() {
                     onRemoveFromCart={onRemoveFromCart}
                 />
             )}
+
             <Header handleCart={handleCart} />
             <Routes>
                 <Route

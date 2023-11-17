@@ -21,13 +21,6 @@ export default function Card({
     //маркер добавленного в избранное
     const [isFavorite, setIsFavorite] = useState(favorite);
 
-    //снимает маркеры если корзина пуста
-    // useEffect(() => {
-    //     if (cartItems.length == 0) {
-    //         setIsAdded(false);
-    //     }
-    // }, [cartItems]);
-
     //добавляет элемент в КОРЗИНУ  проверяя маркер
     const handlePlus = () => {
         onAddToCart({ img, price, name, id }); //добавляет элемент в корзину!!!
@@ -39,6 +32,9 @@ export default function Card({
         onAddToFavorite({ img, price, name, id }); //добавляет элемент в избранное!!!
         setIsFavorite(!isFavorite);
     };
+
+    // console.log(id, added, "передаваемый added");
+    // console.log(id, isAdded, "useState isAdded");
 
     return (
         <div className={cl.card}>
@@ -62,7 +58,14 @@ export default function Card({
                         width="32"
                         height="32"
                     />
-                    <rect x="0" y="10" rx="10" ry="10" width="150" height="90" />
+                    <rect
+                        x="0"
+                        y="10"
+                        rx="10"
+                        ry="10"
+                        width="150"
+                        height="90"
+                    />
                 </ContentLoader>
             ) : (
                 <>

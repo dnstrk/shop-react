@@ -13,13 +13,14 @@ export default function Home({
     cartItems,
     isLoading,
 }) {
-    
-
     const renderItems = () => {
         const filteredItems = items.filter((item) =>
             item.name.toLowerCase().includes(filter.toLowerCase())
         );
 
+        
+        
+        
         return (isLoading ? [...Array(8)] : filteredItems).map(
             (item, index) => (
                 <Card
