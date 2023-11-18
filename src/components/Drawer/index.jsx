@@ -2,9 +2,10 @@ import cl from "./Drawer.module.scss";
 
 export default function Drawer({
     handleCart,
-    cartItems = [],
+    cartItems,
     onRemoveFromCart,
 }) {
+
     return (
         <div style={{ display: "block" }} className={cl.overlay}>
             <div className={cl.drawer}>
@@ -37,10 +38,9 @@ export default function Drawer({
                                         className={cl.remCartItem}
                                         src="/img/remCartItem.svg"
                                         alt="remove"
-                                        onClick={() =>{
-                                            console.log(item.id)
-                                            onRemoveFromCart(item.id)}
-                                        }
+                                        onClick={() => {
+                                            onRemoveFromCart(item.id);
+                                        }}
                                     />
                                 </div>
                             ))}

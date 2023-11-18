@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import Card from "../components/Card";
 
 export default function Home({
@@ -13,31 +12,21 @@ export default function Home({
     cartItems,
     isLoading,
 }) {
+
     const renderItems = () => {
         const filteredItems = items.filter((item) =>
             item.name.toLowerCase().includes(filter.toLowerCase())
         );
 
-        
-        
-        
         return (isLoading ? [...Array(8)] : filteredItems).map(
             (item, index) => (
                 <Card
                     key={index}
-                    // id={item.id}
-                    // img={item.img}
-                    // name={item.name}
-                    // price={item.price}
                     {...item}
                     onAddToCart={onAddToCart}
                     onRemoveFromCart={onRemoveFromCart}
                     onAddToFavorite={onAddToFavorite}
                     onRemoveFromFavorite={onRemoveFromFavorite}
-                    cartItems={cartItems}
-                    added={cartItems.some(  //МАРКЕР ОТВЕЧАЮЩИЙ ЗА ИЗМЕНЕНИЕ КАРТИНКИ ДОБАВЛЕНИЯ
-                        (obj) => Number(item.id) == Number(obj.id)
-                    )}
                     loading={isLoading}
                 />
             )

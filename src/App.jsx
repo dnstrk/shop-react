@@ -1,13 +1,14 @@
 import "./App.scss";
 import "macro-css";
-import Card from "./components/Card";
 import Header from "./components/Header";
 import Drawer from "./components/Drawer";
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Route, Routes } from "react-router-dom";
+
 import Home from "./pages/Home";
 import Favorites from "./pages/Favorites";
+import AppContext from "./context";
 
 function App() {
     const [items, setItems] = useState([]);
@@ -38,22 +39,15 @@ function App() {
         fetchData();
     }, []);
 
-    /*ПЕРЕНЕСЕНО ИЗ ОСНОВНОГО USEFFECT ЧТОБЫ ОБНОВЛЕНИЕ id ЭЛЕМЕНТОВ КОРЗИНЫ
-    ПРОИЗВОДИЛОСЬ СРАЗУ ПОСЛЕ ДОБАВЛЕНИЯ ЭЛЕМЕНТА
-    */
-    // useEffect(() => {
-    //     axios
-    //         .get("https://65415029f0b8287df1fe3a27.mockapi.io/cart")
-    //         .then((res) => setCartItems(res.data));
-    // }, [cartOpened]);
-
     //ДОБАВЛЕНИЕ ЭЛЕМЕНТА В MOCKAPI /CART
-    //ОБНОВЛЕНИЕ cartItems ДЛЯ ОТОБРАЖЕНИЯ
     const onAddToCart = async (obj) => {
         try {
             if (cartItems.find((item) => Number(item.id) == Number(obj.id))) {
                 axios.delete(
                     `https://65415029f0b8287df1fe3a27.mockapi.io/cart/${obj.id}`
+                );
+                setCartItems((prev) =>
+                    prev.filter((item) => Number(item.id) !== Number(obj.id))
                 );
             } else {
                 const { data } = await axios.post(
@@ -112,49 +106,55 @@ function App() {
         setFilter(e.target.value);
     };
 
-    return (
-        <div className="wrapper clear">
-            {cartOpened && (
-                <Drawer
-                    handleCart={handleCart}
-                    cartItems={cartItems}
-                    setCartItems={setCartItems}
-                    onRemoveFromCart={onRemoveFromCart}
-                />
-            )}
 
-            <Header handleCart={handleCart} />
-            <Routes>
-                <Route
-                    path="/"
-                    element={
-                        <Home
-                            items={items}
-                            filter={filter}
-                            onChangeFilterInput={onChangeFilterInput}
-                            setFilter={setFilter}
-                            onAddToCart={onAddToCart}
-                            onRemoveFromCart={onRemoveFromCart}
-                            onAddToFavorite={onAddToFavorite}
-                            cartItems={cartItems}
-                            isLoading={isLoading}
-                        />
-                    }
-                    exact
-                />
-                <Route
-                    path="/favorites"
-                    element={
-                        <Favorites
-                            favoriteItems={favoriteItems}
-                            onAddToCart={onAddToCart}
-                            onAddToFavorite={onAddToFavorite}
-                        />
-                    }
-                />
-                <Route path="/orders" />
-            </Routes>
-        </div>
+    const isItemAdded = (id) => {
+        return cartItems.some((obj) => Number(id) == Number(obj.id))
+    }
+
+    return (
+        <AppContext.Provider value={{ items, cartItems, favoriteItems, isItemAdded }}>
+            <div className="wrapper clear">
+                {cartOpened && (
+                    <Drawer
+                        handleCart={handleCart}
+                        cartItems={cartItems}
+                        setCartItems={setCartItems}
+                        onRemoveFromCart={onRemoveFromCart}
+                    />
+                )}
+
+                <Header handleCart={handleCart} />
+                <Routes>
+                    <Route
+                        path="/"
+                        element={
+                            <Home
+                                items={items}
+                                filter={filter}
+                                onChangeFilterInput={onChangeFilterInput}
+                                setFilter={setFilter}
+                                onAddToCart={onAddToCart}
+                                onRemoveFromCart={onRemoveFromCart}
+                                onAddToFavorite={onAddToFavorite}
+                                cartItems={cartItems}
+                                isLoading={isLoading}
+                            />
+                        }
+                        exact
+                    />
+                    <Route
+                        path="/favorites"
+                        element={
+                            <Favorites
+                                onAddToCart={onAddToCart}
+                                onAddToFavorite={onAddToFavorite}
+                            />
+                        }
+                    />
+                    <Route path="/orders" />
+                </Routes>
+            </div>
+        </AppContext.Provider>
     );
 }
 

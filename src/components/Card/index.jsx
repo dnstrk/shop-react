@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import cl from "./Card.module.scss";
 import ContentLoader from "react-content-loader";
+import AppContext from "../../context";
 
 export default function Card({
     img,
@@ -11,20 +12,21 @@ export default function Card({
     onRemoveFromCart,
     onAddToFavorite,
     onRemoveFromFavorite,
-    cartItems,
     favorite = false,
-    added = false,      //МАРКЕР ОТВЕЧАЮЩИЙ ЗА ИЗМЕНЕНИЕ КАРТИНКИ ДОБАВЛЕНИЯ!!!
     loading = false,
 }) {
-    //маркер добавленного в корзину
-    const [isAdded, setIsAdded] = useState(added);  //МАРКЕР ОТВЕЧАЮЩИЙ ЗА ИЗМЕНЕНИЕ КАРТИНКИ ДОБАВЛЕНИЯ!!!
+    const { isItemAdded } = useContext(AppContext);
     //маркер добавленного в избранное
     const [isFavorite, setIsFavorite] = useState(favorite);
+
+    // фикс отображения добавленного элемента
+    // useEffect(()=>{
+    //     setIsAdded(added)
+    // },[added])
 
     //добавляет элемент в КОРЗИНУ  проверяя маркер
     const handlePlus = () => {
         onAddToCart({ img, price, name, id }); //добавляет элемент в корзину!!!
-        setIsAdded(!isAdded);
     };
 
     //добавляет элемент в ИЗБРАННОЕ проверяя маркер
@@ -33,8 +35,7 @@ export default function Card({
         setIsFavorite(!isFavorite);
     };
 
-    // console.log(id, added, "передаваемый added");
-    // console.log(id, isAdded, "useState isAdded");
+    console.log(id, isItemAdded(id))
 
     return (
         <div className={cl.card}>
@@ -100,7 +101,7 @@ export default function Card({
                             width={32}
                             height={32}
                             src={
-                                isAdded
+                                isItemAdded(id)
                                     ? "/img/addCartItemActive.svg"
                                     : "/img/addCartItem.svg"
                             }
