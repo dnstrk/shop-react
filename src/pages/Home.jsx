@@ -1,17 +1,17 @@
+import { useContext } from "react";
 import Card from "../components/Card";
+import AppContext from "../context";
 
 export default function Home({
     items,
     filter,
     onChangeFilterInput,
     setFilter,
-    onAddToCart,
     onRemoveFromCart,
-    onAddToFavorite,
     onRemoveFromFavorite,
     isLoading,
 }) {
-
+    const {onAddToCart, onAddToFavorite} = useContext(AppContext)
     const renderItems = () => {
         const filteredItems = items.filter((item) =>
             item.name.toLowerCase().includes(filter.toLowerCase())

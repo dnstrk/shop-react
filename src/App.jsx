@@ -9,6 +9,8 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Favorites from "./pages/Favorites";
 import AppContext from "./context";
+import MockapiInfo from "./pages/MockapiInfo";
+import Orders from "./pages/Orders";
 
 function App() {
     const [items, setItems] = useState([]);
@@ -77,9 +79,9 @@ function App() {
                 axios.delete(
                     `https://6549399bdd8ebcd4ab245c9f.mockapi.io/favorite/${obj.id}`
                 );
-                // setFavoriteItems((prev) =>
-                //     prev.filter((item) => item.id !== obj.id)
-                // );
+                setFavoriteItems((prev) =>
+                    prev.filter((item) => Number(item.id) !== Number(obj.id))
+                );
             } else {
                 const { data } = await axios.post(
                     "https://6549399bdd8ebcd4ab245c9f.mockapi.io/favorite",
@@ -106,23 +108,26 @@ function App() {
         setFilter(e.target.value);
     };
 
-
     const isItemAdded = (id) => {
-        return cartItems.some((obj) => Number(id) == Number(obj.id))
-    }
+        return cartItems.some((obj) => Number(id) == Number(obj.id));
+    };
 
     return (
-        <AppContext.Provider value={{ items, cartItems, favoriteItems, isItemAdded }}>
+        <AppContext.Provider
+            value={{
+                items,
+                cartItems,
+                favoriteItems,
+                isItemAdded,
+                handleCart,
+                setCartItems,
+                onAddToCart,
+                onAddToFavorite,
+            }}
+        >
             <div className="wrapper clear">
-                {cartOpened && (
-                    <Drawer
-                        handleCart={handleCart}
-                        cartItems={cartItems}
-                        setCartItems={setCartItems}
-                        onRemoveFromCart={onRemoveFromCart}
-                    />
-                )}
-
+                {/* {cartOpened && <Drawer onRemoveFromCart={onRemoveFromCart} />} */}
+                    <Drawer onRemoveFromCart={onRemoveFromCart} opened={cartOpened} />
                 <Header handleCart={handleCart} />
                 <Routes>
                     <Route
@@ -141,16 +146,8 @@ function App() {
                         }
                         exact
                     />
-                    <Route
-                        path="/favorites"
-                        element={
-                            <Favorites
-                                onAddToCart={onAddToCart}
-                                onAddToFavorite={onAddToFavorite}
-                            />
-                        }
-                    />
-                    <Route path="/orders" />
+                    <Route path="/favorites" element={<Favorites />} />
+                    <Route path="/orders" element={<Orders />} />
                 </Routes>
             </div>
         </AppContext.Provider>

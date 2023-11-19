@@ -7,6 +7,18 @@
     background-color: rgba(0, 0, 0, 0.6);
 
     z-index: 1;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out,visibility 0.3s ease-in-out ;
+}
+
+.overlayVisible {
+    visibility: visible;
+    opacity: 1;
+    .drawer{
+    transform: translateX(0);
+
+    }
 }
 
 .drawer {
@@ -22,6 +34,10 @@
 
     box-shadow: -10px 4px 24px 0px rgba(0, 0, 0, 1);
     padding: 30px;
+
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+
 
     h2 {
         margin: 0;
@@ -92,6 +108,11 @@
     .greenButton {
         position: relative;
 
+        &:disabled{
+            background-color: #bebebe;
+            cursor: default;
+        }
+
         &:hover {
             img {
                 right: 30px;
@@ -114,6 +135,8 @@
     background: #9dd458;
     text-align: center;
 
+   
+
     color: #fff;
 
     font-size: 16px;
@@ -130,57 +153,3 @@
     }
 }
 
-.cartEmpty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 100%;
-    img {
-        width: 120px;
-        height: 120px;
-        margin-bottom: 20px;
-    }
-    h5 {
-        font-size: 22px;
-        margin-bottom: 10px;
-    }
-    span {
-        font-size: 16px;
-        opacity: 0.4;
-        text-align: center;
-        max-width: 285px;
-        margin-bottom: 40px;
-    }
-    button {
-        max-width: 245px;
-        width: 100%;
-        padding: 20px 0;
-        border-radius: 18px;
-        background: #9dd458;
-        text-align: center;
-        color: #fff;
-        font-size: 16px;
-        position: relative;
-        transition: .3s;
-        &:hover {
-            background: lighten(#9dd458, 10%);
-            img {
-                left: 25px;
-            }
-        }
-        &:active {
-            background: darken(#9dd458, 10%);
-        }
-
-        img {
-            position: absolute;
-            width: 13.714px;
-            height: 12px;
-            margin: 0;
-            left: 30px;
-            top: 25px;
-
-            transition: 0.3s;
-        }
-    }
-}

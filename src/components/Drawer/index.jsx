@@ -1,13 +1,50 @@
+import { useContext, useState } from "react";
+import Info from "../Info";
 import cl from "./Drawer.module.scss";
+import AppContext from "../../context";
+import axios from "axios";
+import { useCart } from "../../hooks/useCart";
 
-export default function Drawer({
-    handleCart,
-    cartItems,
-    onRemoveFromCart,
-}) {
+export default function Drawer({  onRemoveFromCart, opened }) {
+    const {cartItems, setCartItems, totalPrice} = useCart()
+    const { handleCart } = useContext(AppContext);
+    const [orderId, setOrderId] = useState();
+    const [isOrderComplete, setIsOrderComplete] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
+    // const totalPrice = cartItems.reduce((sum, obj)=> obj.price + sum, 0)
+
+
+    const onClickOrder = async () => {
+        try {
+            setIsLoading(true);
+            const { data } = await axios.post(
+                "https://6549399bdd8ebcd4ab245c9f.mockapi.io/orders",
+                {
+                    items: cartItems,
+                }
+            );
+
+            setOrderId(data.id);
+            setIsOrderComplete(true);
+            setCartItems([]);
+
+            for (let i = 0; i < cartItems.length; i++) {
+                const item = cartItems[i];
+                axios.delete(
+                    "https://65415029f0b8287df1fe3a27.mockapi.io/cart/" +
+                        item.id
+                );
+            }
+        } catch (error) {
+            alert("Не удалось создать заказ");
+        }
+
+        setIsLoading(false);
+    };
 
     return (
-        <div style={{ display: "block" }} className={cl.overlay}>
+        <div className={`${cl.overlay} ${opened ? cl.overlayVisible:''}`}>
             <div className={cl.drawer}>
                 <h2 className="mb-30">
                     Корзина{" "}
@@ -51,33 +88,42 @@ export default function Drawer({
                                 <li className="d-flex justify-between">
                                     <span>Итого: </span>
                                     <div></div>
-                                    <b>N руб. </b>
+                                    <b>{totalPrice} руб. </b>
                                 </li>
                                 <li className="d-flex justify-between">
                                     <span>Налог 5%: </span>
                                     <div></div>
-                                    <b>N руб. </b>
+                                    <b>{totalPrice/100*5} руб. </b>
                                 </li>
                             </ul>
-                            <button className={cl.greenButton}>
+                            <button
+                                disabled={isLoading}
+                                className={cl.greenButton}
+                                onClick={onClickOrder}
+                            >
                                 Оформить заказ{" "}
                                 <img src="/img/arrow.svg" alt="" />
                             </button>
                         </div>
                     </div>
                 ) : (
-                    <div className={cl.cartEmpty}>
-                        <img src="/img/empty_cart.jpg" alt="empty-cart" />
-                        <h5>Корзина пустая</h5>
-                        <span>
-                            Добавьте хотя бы одну пару кроссовок, чтобы сделать
-                            заказ.
-                        </span>
-                        <button className="cu-p" onClick={handleCart}>
-                            <img src="/img/arrow_left.svg" alt="" />
-                            Вернуться назад
-                        </button>
-                    </div>
+                    <Info
+                        img={
+                            isOrderComplete
+                                ? "/img/order_complete.svg"
+                                : "/img/empty_cart.jpg"
+                        }
+                        title={
+                            isOrderComplete
+                                ? "Заказ оформлен!"
+                                : "Корзина пустая"
+                        }
+                        description={
+                            isOrderComplete
+                                ? `Ваш заказ #${orderId} скоро будет передан курьерской доставке`
+                                : "Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ."
+                        }
+                    />
                 )}
             </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext,useState } from "react";
 import cl from "./Card.module.scss";
 import ContentLoader from "react-content-loader";
 import AppContext from "../../context";
@@ -9,9 +9,7 @@ export default function Card({
     name,
     id,
     onAddToCart,
-    onRemoveFromCart,
     onAddToFavorite,
-    onRemoveFromFavorite,
     favorite = false,
     loading = false,
 }) {
@@ -64,7 +62,7 @@ export default function Card({
             ) : (
                 <>
                     <div className={cl.favorite}>
-                        <img
+                        {onAddToFavorite && <img        //убирает кнопку избранных если не передается функция добавления
                             width={32}
                             height={32}
                             src={
@@ -74,7 +72,7 @@ export default function Card({
                             }
                             alt=""
                             onClick={handleFavorite}
-                        />
+                        />}
                     </div>
                     <img
                         className="mb-15"
@@ -89,7 +87,7 @@ export default function Card({
                             <span className="text-uppercase">Цена:</span>
                             <b>{price} руб.</b>
                         </div>
-                        <img
+                        {onAddToCart && <img       //убирает кнопку добавления если не передается функция добавления  
                             className={cl.plus}
                             width={32}
                             height={32}
@@ -100,7 +98,7 @@ export default function Card({
                             }
                             alt="button"
                             onClick={handlePlus}
-                        />
+                        />}
                     </div>
                 </>
             )}
