@@ -19,23 +19,16 @@ export default function Card({
     //маркер добавленного в избранное
     const [isFavorite, setIsFavorite] = useState(favorite);
 
-    // фикс отображения добавленного элемента
-    // useEffect(()=>{
-    //     setIsAdded(added)
-    // },[added])
-
-    //добавляет элемент в КОРЗИНУ  проверяя маркер
+    //добавляет элемент в КОРЗИНУ
     const handlePlus = () => {
-        onAddToCart({ img, price, name, id }); //добавляет элемент в корзину!!!
+        onAddToCart({ img, price, name, id }); 
     };
 
-    //добавляет элемент в ИЗБРАННОЕ проверяя маркер
+    //добавляет элемент в ИЗБРАННОЕ
     const handleFavorite = () => {
-        onAddToFavorite({ img, price, name, id }); //добавляет элемент в избранное!!!
+        onAddToFavorite({ img, price, name, id }); 
         setIsFavorite(!isFavorite);
     };
-
-    console.log(id, isItemAdded(id))
 
     return (
         <div className={cl.card}>

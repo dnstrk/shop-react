@@ -9,7 +9,6 @@ export default function Home({
     onRemoveFromCart,
     onAddToFavorite,
     onRemoveFromFavorite,
-    cartItems,
     isLoading,
 }) {
 

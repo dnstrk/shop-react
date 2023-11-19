@@ -2,7 +2,7 @@ import "./App.scss";
 import "macro-css";
 import Header from "./components/Header";
 import Drawer from "./components/Drawer";
-import { createContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { Route, Routes } from "react-router-dom";
 
@@ -136,7 +136,6 @@ function App() {
                                 onAddToCart={onAddToCart}
                                 onRemoveFromCart={onRemoveFromCart}
                                 onAddToFavorite={onAddToFavorite}
-                                cartItems={cartItems}
                                 isLoading={isLoading}
                             />
                         }
