@@ -38,7 +38,7 @@ export default function Home({
                     {filter ? `Поиск по запросу: ${filter}` : "Все кроссовки"}
                 </h1>
                 <div className="search-block d-flex">
-                    <img src="/img/search.svg" alt="" />
+                    <img src="img/search.svg" alt="" />
                     <input
                         type="text"
                         placeholder="Поиск..."
@@ -48,7 +48,7 @@ export default function Home({
                     <img
                         className="cu-p"
                         onClick={() => setFilter("")}
-                        src="/img/remCartItem.svg"
+                        src="img/remCartItem.svg"
                         alt="close"
                     />
                 </div>

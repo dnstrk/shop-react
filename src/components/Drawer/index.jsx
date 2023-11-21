@@ -51,7 +51,7 @@ export default function Drawer({  onRemoveFromCart, opened }) {
                     <img
                         onClick={handleCart}
                         className={cl.remCartItem}
-                        src="/img/remCartItem.svg"
+                        src="img/remCartItem.svg"
                         alt="close"
                     />
                 </h2>
@@ -73,7 +73,7 @@ export default function Drawer({  onRemoveFromCart, opened }) {
                                     </div>
                                     <img
                                         className={cl.remCartItem}
-                                        src="/img/remCartItem.svg"
+                                        src="img/remCartItem.svg"
                                         alt="remove"
                                         onClick={() => {
                                             onRemoveFromCart(item.id)
@@ -103,7 +103,7 @@ export default function Drawer({  onRemoveFromCart, opened }) {
                                 onClick={onClickOrder}
                             >
                                 Оформить заказ{" "}
-                                <img src="/img/arrow.svg" alt="" />
+                                <img src="img/arrow.svg" alt="" />
                             </button>
                         </div>
                     </div>
@@ -111,8 +111,8 @@ export default function Drawer({  onRemoveFromCart, opened }) {
                     <Info
                         img={
                             isOrderComplete
-                                ? "/img/order_complete.svg"
-                                : "/img/empty_cart.jpg"
+                                ? "img/order_complete.svg"
+                                : "img/empty_cart.jpg"
                         }
                         title={
                             isOrderComplete

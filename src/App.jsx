@@ -9,7 +9,6 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Favorites from "./pages/Favorites";
 import AppContext from "./context";
-import MockapiInfo from "./pages/MockapiInfo";
 import Orders from "./pages/Orders";
 
 function App() {
@@ -56,13 +55,15 @@ function App() {
             );
             if (findItem) {
                 setCartItems((prev) =>
-                    prev.filter((item) => Number(item.parentID) !== Number(obj.id))
+                    prev.filter(
+                        (item) => Number(item.parentID) !== Number(obj.id)
+                    )
                 );
                 await axios.delete(
                     `https://65415029f0b8287df1fe3a27.mockapi.io/cart/${findItem.id}`
                 );
             } else {
-                const {data} = await axios.post(
+                const { data } = await axios.post(
                     "https://65415029f0b8287df1fe3a27.mockapi.io/cart",
                     obj
                 );
@@ -175,8 +176,8 @@ function App() {
                         }
                         exact
                     />
-                    <Route path="/favorites" element={<Favorites />} />
-                    <Route path="/orders" element={<Orders />} />
+                    <Route path="/favorites" element={<Favorites />} exact />
+                    <Route path="/orders" element={<Orders />} exact />
                 </Routes>
             </div>
         </AppContext.Provider>

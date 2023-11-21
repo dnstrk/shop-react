@@ -1,4 +1,4 @@
-import React, { useContext,useState } from "react";
+import React, { useContext, useState } from "react";
 import cl from "./Card.module.scss";
 import ContentLoader from "react-content-loader";
 import AppContext from "../../context";
@@ -16,16 +16,16 @@ export default function Card({
     const { isItemAdded, isItemFavorite } = useContext(AppContext);
     //маркер добавленного в избранное
     const [isFavorite, setIsFavorite] = useState(favorite);
-    const obj = { id, parentID: id, img, price, name}
+    const obj = { id, parentID: id, img, price, name };
 
     //добавляет элемент в КОРЗИНУ
     const handlePlus = () => {
-        onAddToCart(obj); 
+        onAddToCart(obj);
     };
 
     //добавляет элемент в ИЗБРАННОЕ
     const handleFavorite = () => {
-        onAddToFavorite(obj); 
+        onAddToFavorite(obj);
         setIsFavorite(!isFavorite);
     };
 
@@ -63,17 +63,19 @@ export default function Card({
             ) : (
                 <>
                     <div className={cl.favorite}>
-                        {onAddToFavorite && <img        //убирает кнопку избранных если не передается функция добавления
-                            width={32}
-                            height={32}
-                            src={
-                                isFavorite
-                                    ? "/img/heart_liked.svg"
-                                    : "/img/heart_unliked.svg"
-                            }
-                            alt=""
-                            onClick={handleFavorite}
-                        />}
+                        {onAddToFavorite && (
+                            <img //убирает кнопку избранных если не передается функция добавления
+                                width={32}
+                                height={32}
+                                src={
+                                    isFavorite
+                                        ? "img/heart_liked.svg"
+                                        : "img/heart_unliked.svg"
+                                }
+                                alt=""
+                                onClick={handleFavorite}
+                            />
+                        )}
                     </div>
                     <img
                         className="mb-15"
@@ -88,18 +90,20 @@ export default function Card({
                             <span className="text-uppercase">Цена:</span>
                             <b>{price} руб.</b>
                         </div>
-                        {onAddToCart && <img       //убирает кнопку добавления если не передается функция добавления  
-                            className={cl.plus}
-                            width={32}
-                            height={32}
-                            src={
-                                isItemAdded(id)
-                                    ? "/img/addCartItemActive.svg"
-                                    : "/img/addCartItem.svg"
-                            }
-                            alt="button"
-                            onClick={handlePlus}
-                        />}
+                        {onAddToCart && (
+                            <img //убирает кнопку добавления если не передается функция добавления
+                                className={cl.plus}
+                                width={32}
+                                height={32}
+                                src={
+                                    isItemAdded(id)
+                                        ? "img/addCartItemActive.svg"
+                                        : "img/addCartItem.svg"
+                                }
+                                alt="button"
+                                onClick={handlePlus}
+                            />
+                        )}
                     </div>
                 </>
             )}
