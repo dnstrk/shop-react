@@ -22,21 +22,28 @@ function App() {
 
     useEffect(() => {
         async function fetchData() {
-            const cartResp = await axios.get(
-                "https://65415029f0b8287df1fe3a27.mockapi.io/cart"
-            );
-            const favoriteResp = await axios.get(
-                "https://6549399bdd8ebcd4ab245c9f.mockapi.io/favorite"
-            );
-            const itemResp = await axios.get(
-                "https://65415029f0b8287df1fe3a27.mockapi.io/items"
-            );
+            try {
+                const [cartResp, favoriteResp, itemResp] = await Promise.all([
+                    axios.get(
+                        "https://65415029f0b8287df1fe3a27.mockapi.io/cart"
+                    ),
+                    axios.get(
+                        "https://6549399bdd8ebcd4ab245c9f.mockapi.io/favorite"
+                    ),
+                    axios.get(
+                        "https://65415029f0b8287df1fe3a27.mockapi.io/items"
+                    ),
+                ]);
 
-            setIsLoading(false);
+                setIsLoading(false);
 
-            setCartItems(cartResp.data);
-            setFavoriteItems(favoriteResp.data);
-            setItems(itemResp.data);
+                setCartItems(cartResp.data);
+                setFavoriteItems(favoriteResp.data);
+                setItems(itemResp.data);
+            } catch (error) {
+                alert("Ошибка при запросе данных");
+                console.log(error.message);
+            }
         }
         fetchData();
     }, []);
@@ -44,29 +51,43 @@ function App() {
     //ДОБАВЛЕНИЕ ЭЛЕМЕНТА В MOCKAPI /CART
     const onAddToCart = async (obj) => {
         try {
-            if (cartItems.find((item) => Number(item.id) == Number(obj.id))) {
-                axios.delete(
-                    `https://65415029f0b8287df1fe3a27.mockapi.io/cart/${obj.id}`
-                );
+            const findItem = cartItems.find(
+                (item) => Number(item.parentID) == Number(obj.id)
+            );
+            if (findItem) {
                 setCartItems((prev) =>
-                    prev.filter((item) => Number(item.id) !== Number(obj.id))
+                    prev.filter((item) => Number(item.parentID) !== Number(obj.id))
+                );
+                await axios.delete(
+                    `https://65415029f0b8287df1fe3a27.mockapi.io/cart/${findItem.id}`
                 );
             } else {
-                const { data } = await axios.post(
+                const {data} = await axios.post(
                     "https://65415029f0b8287df1fe3a27.mockapi.io/cart",
                     obj
                 );
                 setCartItems((prev) => [...prev, data]);
             }
         } catch (error) {
+            alert("Ошибка при добавлении в корзину");
             console.log(error.message);
         }
     };
 
     //УДАЛЕНИЕ в OVERLAY ЭЛЕМЕНТА В MOCKAPI /CART
     const onRemoveFromCart = (id) => {
-        axios.delete(`https://65415029f0b8287df1fe3a27.mockapi.io/cart/${id}`);
-        setCartItems((prev) => prev.filter((item) => item.id !== id));
+        try {
+            // console.log(`https://65415029f0b8287df1fe3a27.mockapi.io/cart/${id}`)
+            axios.delete(
+                `https://65415029f0b8287df1fe3a27.mockapi.io/cart/${id}`
+            );
+            setCartItems((prev) =>
+                prev.filter((item) => Number(item.id) !== Number(id))
+            );
+        } catch (error) {
+            alert("Ошибка удаления из корзины");
+            console.log(error.message);
+        }
     };
 
     //ДОБАВЛЕНИЕ ЭЛЕМЕНТА В MOCKAPI /FAVORITE
@@ -109,7 +130,11 @@ function App() {
     };
 
     const isItemAdded = (id) => {
-        return cartItems.some((obj) => Number(id) == Number(obj.id));
+        return cartItems.some((obj) => Number(id) == Number(obj.parentID));
+    };
+
+    const isItemFavorite = (id) => {
+        return favoriteItems.some((obj) => Number(id) == Number(obj.parentID));
     };
 
     return (
@@ -119,6 +144,7 @@ function App() {
                 cartItems,
                 favoriteItems,
                 isItemAdded,
+                isItemFavorite,
                 handleCart,
                 setCartItems,
                 onAddToCart,
@@ -127,7 +153,10 @@ function App() {
         >
             <div className="wrapper clear">
                 {/* {cartOpened && <Drawer onRemoveFromCart={onRemoveFromCart} />} */}
-                    <Drawer onRemoveFromCart={onRemoveFromCart} opened={cartOpened} />
+                <Drawer
+                    onRemoveFromCart={onRemoveFromCart}
+                    opened={cartOpened}
+                />
                 <Header handleCart={handleCart} />
                 <Routes>
                     <Route

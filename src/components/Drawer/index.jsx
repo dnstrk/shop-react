@@ -76,7 +76,8 @@ export default function Drawer({  onRemoveFromCart, opened }) {
                                         src="/img/remCartItem.svg"
                                         alt="remove"
                                         onClick={() => {
-                                            onRemoveFromCart(item.id);
+                                            onRemoveFromCart(item.id)
+                                            console.log(item.id)
                                         }}
                                     />
                                 </div>

@@ -13,18 +13,19 @@ export default function Card({
     favorite = false,
     loading = false,
 }) {
-    const { isItemAdded } = useContext(AppContext);
+    const { isItemAdded, isItemFavorite } = useContext(AppContext);
     //маркер добавленного в избранное
     const [isFavorite, setIsFavorite] = useState(favorite);
+    const obj = { id, parentID: id, img, price, name}
 
     //добавляет элемент в КОРЗИНУ
     const handlePlus = () => {
-        onAddToCart({ img, price, name, id }); 
+        onAddToCart(obj); 
     };
 
     //добавляет элемент в ИЗБРАННОЕ
     const handleFavorite = () => {
-        onAddToFavorite({ img, price, name, id }); 
+        onAddToFavorite(obj); 
         setIsFavorite(!isFavorite);
     };
 
