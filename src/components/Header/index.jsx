@@ -31,7 +31,7 @@ export default function Header({ handleCart }) {
                         className="mr-10"
                         width={18}
                         height={18}
-                        src="/img/cart.svg"
+                        src="img/cart.svg"
                         alt="card"
                     />
                     <span>{totalPrice} руб.</span>
