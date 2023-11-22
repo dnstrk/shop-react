@@ -43,8 +43,8 @@ export default function Drawer({ onRemoveFromCart, opened }) {
     };
 
     const onOverlayClose = (e) => {
-        const targetClass = e.target.classList
-        if(targetClass[0] == `${cl.overlay}`) {
+        const targetClassValue = e.target.classList.value
+        if(targetClassValue.split(' ').includes(`${cl.overlay}`)) {
             handleCart();
         }
     };
@@ -86,7 +86,6 @@ export default function Drawer({ onRemoveFromCart, opened }) {
                                         alt="remove"
                                         onClick={() => {
                                             onRemoveFromCart(item.id);
-                                            console.log(item.id);
                                         }}
                                     />
                                 </div>
