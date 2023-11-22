@@ -13,7 +13,7 @@ export default function Info({  img, title, description }) {
                 {description}
             </span>
             <button className="cu-p" onClick={handleCart}>
-                <img src="/img/arrow_left.svg" alt="" />
+                <img src="img/arrow_left.svg" alt="" />
                 Вернуться назад
             </button>
         </div>

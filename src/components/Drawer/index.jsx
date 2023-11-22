@@ -5,15 +5,14 @@ import AppContext from "../../context";
 import axios from "axios";
 import { useCart } from "../../hooks/useCart";
 
-export default function Drawer({  onRemoveFromCart, opened }) {
-    const {cartItems, setCartItems, totalPrice} = useCart()
+export default function Drawer({ onRemoveFromCart, opened }) {
+    const { cartItems, setCartItems, totalPrice } = useCart();
     const { handleCart } = useContext(AppContext);
     const [orderId, setOrderId] = useState();
     const [isOrderComplete, setIsOrderComplete] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     // const totalPrice = cartItems.reduce((sum, obj)=> obj.price + sum, 0)
-
 
     const onClickOrder = async () => {
         try {
@@ -43,8 +42,18 @@ export default function Drawer({  onRemoveFromCart, opened }) {
         setIsLoading(false);
     };
 
+    const onOverlayClose = (e) => {
+        const targetClass = e.target.classList
+        if(targetClass[0] == `${cl.overlay}`) {
+            handleCart();
+        }
+    };
+
     return (
-        <div className={`${cl.overlay} ${opened ? cl.overlayVisible:''}`}>
+        <div
+            className={`${cl.overlay} ${opened ? cl.overlayVisible : ""}`}
+            onClick={(event)=>onOverlayClose(event)}
+        >
             <div className={cl.drawer}>
                 <h2 className="mb-30">
                     Корзина{" "}
@@ -76,8 +85,8 @@ export default function Drawer({  onRemoveFromCart, opened }) {
                                         src="img/remCartItem.svg"
                                         alt="remove"
                                         onClick={() => {
-                                            onRemoveFromCart(item.id)
-                                            console.log(item.id)
+                                            onRemoveFromCart(item.id);
+                                            console.log(item.id);
                                         }}
                                     />
                                 </div>
@@ -94,7 +103,7 @@ export default function Drawer({  onRemoveFromCart, opened }) {
                                 <li className="d-flex justify-between">
                                     <span>Налог 5%: </span>
                                     <div></div>
-                                    <b>{totalPrice/100*5} руб. </b>
+                                    <b>{(totalPrice / 100) * 5} руб. </b>
                                 </li>
                             </ul>
                             <button
